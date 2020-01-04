@@ -1,6 +1,12 @@
-public with sharing class Finalplexer implements Finalizer{
+public with sharing class FinalPlexer implements Finalizer{
 
     private List<Finalizer> delegates = new List<Finalizer>();
+
+    private FinalPlexer(){} //block construction in favor of a static factory
+
+    public static FinalPlexer newInstance(){
+        return new Finalplexer();
+    }
 
     public void addFinalizer(Finalizer f){
         if(f == null){ throw new IllegalArgumentException('Finalplexer does not support attaching null objects as Finalizer');  }
@@ -12,9 +18,11 @@ public with sharing class Finalplexer implements Finalizer{
     }
 
     public void execute(FinalizerContext ctx){
+        System.debug(LoggingLevel.FINER, 'Starting FinalPlexer execution of '+delegates.size()+' finalizers.');
         for(Finalizer f:delegates){
             f.execute(ctx);
         }
+        System.debug(LoggingLevel.FINER, 'Finishing FinalPlexer execution');
     }
 
     private class FinalizerWrapper{
