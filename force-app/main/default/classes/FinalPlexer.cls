@@ -25,9 +25,4 @@ public with sharing class FinalPlexer implements Finalizer{
         System.debug(LoggingLevel.FINER, 'Finishing FinalPlexer execution');
     }
 
-    private class FinalizerWrapper{
-        private Finalizer f;
-        private String label;
-    }
-
 }
